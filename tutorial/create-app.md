@@ -1,38 +1,37 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-Ouvrez Visual Studio, puis sélectionnez **fichier _GT_ nouveau projet >**. Dans la boîte de dialogue **nouveau projet** , procédez comme suit:
+Ouvrez Visual Studio, puis sélectionnez **créer un nouveau projet**. Dans la boîte de dialogue **créer un nouveau projet** , choisissez **application mobile (Xamarin. Forms)**, puis choisissez **suivant**.
 
-1. Sélectionnez **Visual C# _GT_ multiplateforme**.
-1. Sélectionnez **application mobile (Xamarin. Forms)**.
-1. Entrez **GraphTutorial** pour le nom du projet.
+![Boîte de dialogue créer un nouveau projet dans Visual Studio 2019](images/new-project-dialog.png)
 
-![Boîte de dialogue créer un nouveau projet dans Visual Studio 2017](images/new-project-dialog.png)
+Dans la boîte de dialogue **configurer un nouveau projet** , entrez `GraphTutorial` le **nom du projet** et le nom de la **solution**, puis choisissez **créer**.
 
 > [!IMPORTANT]
-> Assurez-vous d'entrer exactement le même nom pour le projet Visual Studio spécifié dans ces instructions d'atelier. Le nom du projet Visual Studio devient partie intégrante de l'espace de noms dans le code. Le code à l'intérieur de ces instructions dépend de l'espace de noms correspondant au nom de projet Visual Studio spécifié dans ces instructions. Si vous utilisez un nom de projet différent, le code n'est pas compilé, sauf si vous ajustez tous les espaces de noms pour qu'ils correspondent au nom de projet Visual Studio que vous entrez lors de la création du projet.
+> Assurez-vous d’entrer exactement le même nom pour le projet Visual Studio spécifié dans ces instructions d’atelier. Le nom du projet Visual Studio devient partie intégrante de l’espace de noms dans le code. Le code à l’intérieur de ces instructions dépend de l’espace de noms correspondant au nom de projet Visual Studio spécifié dans ces instructions. Si vous utilisez un nom de projet différent, le code n’est pas compilé, sauf si vous ajustez tous les espaces de noms pour qu’ils correspondent au nom de projet Visual Studio que vous entrez lors de la création du projet.
 
-Sélectionnez **OK**. Dans la boîte de dialogue **nouvelle application** multiplateforme, sélectionnez le modèle **vierge** et assurez-vous que la sélection de **stratégie de partage de code** est **.NET standard**. Si vous envisagez d'ignorer une plateforme spécifique, vous pouvez la désélectionner **** sous plateformes. Sélectionnez **OK** pour créer la solution.
+![Boîte de dialogue Configurer un nouveau projet de Visual Studio 2019](images/configure-new-project-dialog.png)
 
-![Nouvelle boîte de dialogue d'application multiplateforme Visual Studio 2017](images/new-cross-platform-app-dialog.png)
+Dans la boîte de dialogue **nouvelle application** multiplateforme, sélectionnez le modèle **vierge** , puis sélectionnez les plateformes que vous souhaitez **** créer sous plateformes. Sélectionnez **OK** pour créer la solution.
+
+![Nouvelle boîte de dialogue d’application multiplateforme Visual Studio 2019](images/new-cross-platform-app-dialog.png)
 
 Avant de poursuivre, installez des packages NuGet supplémentaires que vous utiliserez plus tard.
 
-- [Microsoft. Identity. client](https://www.nuget.org/packages/Microsoft.Identity.Client/) pour gérer l'authentification Azure ad et la gestion des jetons.
+- [Microsoft. Identity. client](https://www.nuget.org/packages/Microsoft.Identity.Client/) pour gérer l’authentification Azure ad et la gestion des jetons.
 - [Microsoft. Graph](https://www.nuget.org/packages/Microsoft.Graph/) pour effectuer des appels à Microsoft Graph.
 
 Sélectionnez **Outils _GT_ gestionnaire de package NuGet _GT_ console Gestionnaire de package**. Dans la console Gestionnaire de package, entrez les commandes suivantes.
 
 ```Powershell
-Install-Package Microsoft.Identity.Client -Version 2.7.0 -Project GraphTutorial
-Install-Package Xamarin.Android.Support.Compat -Version 27.0.2.1 -Project GraphTutorial.Android
-Install-Package Microsoft.Identity.Client -Version 2.7.0 -Project GraphTutorial.Android
-Install-Package Microsoft.Identity.Client -Version 2.7.0 -Project GraphTutorial.iOS
-Install-Package Microsoft.Graph -Version 1.12.0 -Project GraphTutorial
+Install-Package Microsoft.Identity.Client -Version 3.0.8 -Project GraphTutorial
+Install-Package Microsoft.Identity.Client -Version 3.0.8 -Project GraphTutorial.Android
+Install-Package Microsoft.Identity.Client -Version 3.0.8 -Project GraphTutorial.iOS
+Install-Package Microsoft.Graph -Version 1.15.0 -Project GraphTutorial
 ```
 
-## <a name="design-the-app"></a>Concevoir l'application
+## <a name="design-the-app"></a>Concevoir l’application
 
-Commencez par mettre à jour `App` la classe pour ajouter des variables afin de suivre l'état d'authentification et l'utilisateur connecté. Dans l' **Explorateur de solutions**, développez le projet **GraphTutorial** , puis développez le fichier **app. Xaml** . Ouvrez le fichier **app.Xaml.cs** et ajoutez les instructions `using` suivantes en haut du fichier.
+Commencez par mettre à jour `App` la classe pour ajouter des variables afin de suivre l’état d’authentification et l’utilisateur connecté. Dans l' **Explorateur de solutions**, développez le projet **GraphTutorial** , puis développez le fichier **app. Xaml** . Ouvrez le fichier **app.Xaml.cs** et ajoutez les instructions `using` suivantes en haut du fichier.
 
 ```cs
 using System.ComponentModel;
@@ -102,7 +101,7 @@ public ImageSource UserPhoto
 }
 ```
 
-À présent, ajoutez les fonctions suivantes `App` à la classe. Les `SignIn`fonctions `SignOut`, et `GetUserInfo` sont simplement des espaces réservés pour l'instant.
+À présent, ajoutez les fonctions suivantes `App` à la classe. Les `SignIn`fonctions `SignOut`, et `GetUserInfo` sont simplement des espaces réservés pour l’instant.
 
 ```cs
 public async Task SignIn()
@@ -134,13 +133,13 @@ private Stream GetUserPhoto()
 }
 ```
 
-La `GetUserPhoto` fonction renvoie une photo par défaut pour le moment. Vous pouvez soit fournir votre propre fichier ici, soit télécharger celui utilisé dans l'exemple à partir de [GitHub](https://github.com/microsoftgraph/msgraph-training-xamarin/blob/master/tutorial/images/no-profile-pic.png). Copiez le fichier dans `./GraphTutorial/GraphTutorial` le répertoire. Cliquez avec le bouton droit sur le projet **GraphTutorial** dans l' **Explorateur de solutions** et choisissez **Ajouter**, puis **élément existant...**. Sélectionnez le `no-profile-pic.png` fichier, puis choisissez **Ajouter**. À présent, cliquez avec le bouton droit sur le fichier dans l' **Explorateur de solutions** , puis choisissez **Propriétés**. Dans la fenêtre **Propriétés** , modifiez l'action de **génération** en **ressource incorporée**.
+La `GetUserPhoto` fonction renvoie une photo par défaut pour le moment. Vous pouvez soit fournir votre propre fichier ici, soit télécharger celui utilisé dans l’exemple à partir de [GitHub](https://github.com/microsoftgraph/msgraph-training-xamarin/blob/master/tutorial/images/no-profile-pic.png). Copiez le fichier dans `./GraphTutorial/GraphTutorial` le répertoire. Cliquez avec le bouton droit sur le projet **GraphTutorial** dans l' **Explorateur de solutions** et choisissez **Ajouter**, puis **élément existant...**. Sélectionnez le `no-profile-pic.png` fichier, puis choisissez **Ajouter**. À présent, cliquez avec le bouton droit sur le fichier dans l' **Explorateur de solutions** , puis choisissez **Propriétés**. Dans la fenêtre **Propriétés** , modifiez l’action de **génération** en **ressource incorporée**.
 
-![Capture d'écran de la fenêtre Propriétés pour le fichier PNG](./images/png-file-properties.png)
+![Capture d’écran de la fenêtre Propriétés pour le fichier PNG](./images/png-file-properties.png)
 
-### <a name="app-navigation"></a>Navigation de l'application
+### <a name="app-navigation"></a>Navigation de l’application
 
-Ensuite, définissez la page principale de l'application sur une [page maître/détails](/xamarin/xamarin-forms/app-fundamentals/navigation/master-detail-page). Cela permet de fournir un menu de navigation permettant de basculer entre l'affichage dans l'application.
+Ensuite, définissez la page principale de l’application sur une [page maître/détails](/xamarin/xamarin-forms/app-fundamentals/navigation/master-detail-page). Cela permet de fournir un menu de navigation permettant de basculer entre l’affichage dans l’application.
 
 Ouvrez le fichier **MainPage. Xaml** dans le projet **GraphTutorial** et remplacez son contenu par ce qui suit.
 
@@ -275,7 +274,7 @@ namespace GraphTutorial
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuPage : ContentPage
     {
-        MainPage RootPage { get => Application.Current.MainPage as MainPage; }
+        MainPage RootPage => Application.Current.MainPage as MainPage;
         List<NavMenuItem> menuItems;
 
         public MenuPage ()
@@ -322,7 +321,10 @@ namespace GraphTutorial
 }
 ```
 
-#### <a name="implement-the-welcome-page"></a>Implémenter la page d'accueil
+> [!NOTE]
+> Visual Studio signale les erreurs dans **MenuPage.Xaml.cs**. Ces erreurs seront résolues au cours d’une étape ultérieure.
+
+#### <a name="implement-the-welcome-page"></a>Implémenter la page d’accueil
 
 Cliquez avec le bouton droit sur le projet **GraphTutorial** , puis sélectionnez **Ajouter**, puis **nouvel élément..**.. Choisissez **page de contenu** et nommez `WelcomePage`la page. Sélectionnez **Ajouter**. Ouvrez le fichier **WelcomePage. Xaml** et remplacez son contenu par ce qui suit.
 
@@ -378,13 +380,13 @@ private void OnSignIn(object sender, EventArgs e)
 
 #### <a name="add-calendar-page"></a>Ajouter une page de calendrier
 
-Maintenant, ajoutez une page de calendrier. Il s'agit uniquement d'un espace réservé pour l'instant. Cliquez avec le bouton droit sur le projet **GraphTutorial** , puis sélectionnez **Ajouter**, puis **nouvel élément..**.. Choisissez **page de contenu** et nommez `CalendarPage`la page. Sélectionnez **Ajouter**.
+Maintenant, ajoutez une page de calendrier. Il s’agit uniquement d’un espace réservé pour l’instant. Cliquez avec le bouton droit sur le projet **GraphTutorial** , puis sélectionnez **Ajouter**, puis **nouvel élément..**.. Choisissez **page de contenu** et nommez `CalendarPage`la page. Sélectionnez **Ajouter**.
 
 Laissez la page ajoutée telle quelle pour le moment.
 
 #### <a name="update-mainpage-code-behind"></a>Mettre à jour le code MainPage-behind
 
-Maintenant que toutes les pages sont en place, mettez à jour le code-behind pour **MainPage. Xaml**. Développez **MainPage. Xaml** dans l' **Explorateur de solutions** et ouvrez le fichier **MainPage.Xaml.cs** et remplacez l'intégralité de son contenu par ce qui suit.
+Maintenant que toutes les pages sont en place, mettez à jour le code-behind pour **MainPage. Xaml**. Développez **MainPage. Xaml** dans l' **Explorateur de solutions** et ouvrez le fichier **MainPage.Xaml.cs** et remplacez l’intégralité de son contenu par ce qui suit.
 
 ```cs
 using System;
@@ -447,4 +449,4 @@ namespace GraphTutorial
 
 Enregistrez toutes vos modifications. Cliquez avec le bouton droit sur le projet que vous souhaitez exécuter (Android, iOS ou UWP), puis choisissez **définir comme projet de démarrage**. Appuyez sur **F5** ou sélectionnez **débogage > démarrer** le débogage dans Visual Studio.
 
-![Captures d'écran des versions Android, iOS et UWP de l'application](./images/welcome-page.png)
+![Captures d’écran des versions Android, iOS et UWP de l’application](./images/welcome-page.png)

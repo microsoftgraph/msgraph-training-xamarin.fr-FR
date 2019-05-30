@@ -12,7 +12,7 @@ Dans cet exercice, vous allez créer une application native Azure AD à l’aide
 
     - Définissez le **Nom** sur `Xamarin Graph Tutorial`.
     - Définissez les **Types de comptes pris en charge** sur **Comptes dans un annuaire organisationnel et comptes personnels Microsoft**.
-    - Laissez **Redirect URI** vide.
+    - Sous **URI de redirection (facultatif)**, remplacez la liste déroulante par **client public (mobile & Desktop)** et définissez `urn:ietf:wg:oauth:2.0:oob`la valeur sur.
 
     ![Capture d’écran de la page inscrire une application](./images/aad-register-an-app.png)
 
@@ -20,6 +20,6 @@ Dans cet exercice, vous allez créer une application native Azure AD à l’aide
 
     ![Capture d’écran de l’ID d’application de la nouvelle inscription de l’application](./images/aad-application-id.png)
 
-1. Sélectionnez le lien **Ajouter un URI de redirection** . Sur la page **URI** de redirection, recherchez la section **URI de redirection suggérée pour les clients publics (mobile, bureau)** . Sélectionnez l’URI qui commence par `msal` **et** l’URI **urn: IETF: WG: OAuth: 2.0: OOB** . Copiez la valeur qui commence `msal`par, puis choisissez **Enregistrer**. Enregistrez l’URI de redirection copié, vous en aurez besoin à l’étape suivante.
+1. Sélectionnez l' **authentification** sous **gérer**. Recherchez la section **URI de redirection suggérées pour les clients publics (mobile, bureau)** . Sélectionnez l’URI qui commence par `msal`, puis choisissez **Enregistrer**.
 
     ![Capture d’écran de la page des URI de redirection](./images/aad-redirect-uris.png)
