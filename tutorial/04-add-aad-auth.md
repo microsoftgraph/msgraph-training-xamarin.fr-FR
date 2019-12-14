@@ -33,6 +33,12 @@ using System.Linq;
 using System.Net.Http.Headers;
 ```
 
+Modifiez la ligne de déclaration de classe d' **application** pour résoudre le conflit de nom pour l' **application**.
+
+```cs
+public partial class App : Xamarin.Forms.Application, INotifyPropertyChanged
+```
+
 Ajoutez les propriétés suivantes à la `App` classe.
 
 ```cs
@@ -47,6 +53,9 @@ public static IPublicClientApplication PCA;
 
 // Microsoft Graph client
 public static GraphServiceClient GraphClient;
+
+// Microsoft Graph permissions used by app
+private readonly string[] Scopes = OAuthSettings.Scopes.Split(' ');
 ```
 
 Ensuite, créez un nouveau `PublicClientApplication` dans le constructeur de la `App` classe.
@@ -73,36 +82,27 @@ public App()
 À présent, `SignIn` mettez à jour la `PublicClientApplication` fonction pour utiliser l’pour obtenir un jeton d’accès. Ajoutez le code suivant au- `await GetUserInfo();` dessus de la ligne.
 
 ```cs
-var scopes = OAuthSettings.Scopes.Split(' ');
-
 // First, attempt silent sign in
 // If the user's information is already in the app's cache,
 // they won't have to sign in again.
-string accessToken = string.Empty;
 try
 {
     var accounts = await PCA.GetAccountsAsync();
-    if (accounts.Count() > 0)
-    {
-        var silentAuthResult = await PCA
-            .AcquireTokenSilent(scopes, accounts.FirstOrDefault())
-            .ExecuteAsync();
 
-        Debug.WriteLine("User already signed in.");
-        Debug.WriteLine($"Access token: {silentAuthResult.AccessToken}");
-        accessToken = silentAuthResult.AccessToken;
-    }
+    var silentAuthResult = await PCA
+        .AcquireTokenSilent(Scopes, accounts.FirstOrDefault())
+        .ExecuteAsync();
+
+    Debug.WriteLine("User already signed in.");
+    Debug.WriteLine($"Successful silent authentication for: {silentAuthResult.Account.Username}");
+    Debug.WriteLine($"Access token: {silentAuthResult.AccessToken}");
 }
-catch (MsalUiRequiredException)
+catch (MsalUiRequiredException msalEx)
 {
     // This exception is thrown when an interactive sign-in is required.
-    Debug.WriteLine("Silent token request failed, user needs to sign-in");
-}
-
-if (string.IsNullOrEmpty(accessToken))
-{
+    Debug.WriteLine("Silent token request failed, user needs to sign-in: " + msalEx.Message);
     // Prompt the user to sign-in
-    var interactiveRequest = PCA.AcquireTokenInteractive(scopes);
+    var interactiveRequest = PCA.AcquireTokenInteractive(Scopes);
 
     if (AuthUIParent != null)
     {
@@ -110,8 +110,13 @@ if (string.IsNullOrEmpty(accessToken))
             .WithParentActivityOrWindow(AuthUIParent);
     }
 
-    var authResult = await interactiveRequest.ExecuteAsync();
-    Debug.WriteLine($"Access Token: {authResult.AccessToken}");
+    var interactiveAuthResult = await interactiveRequest.ExecuteAsync();
+    Debug.WriteLine($"Successful interactive authentication for: {interactiveAuthResult.Account.Username}");
+    Debug.WriteLine($"Access token: {interactiveAuthResult.AccessToken}");
+}
+catch (Exception ex)
+{
+    Debug.WriteLine("Authentication failed. See exception messsage for more details: " + ex.Message);
 }
 ```
 
@@ -185,7 +190,7 @@ App.AuthUIParent = this;
 ### <a name="update-ios-project-to-enable-sign-in"></a>Mettre à jour le projet iOS pour activer la connexion
 
 > [!IMPORTANT]
-> Étant donné que MSAL nécessite l’utilisation d’un fichier habilitations. plist, vous devez configurer Visual Studio avec votre compte de développeur Apple pour activer la mise en service. Si vous exécutez ce didacticiel dans le simulateur iPhone, vous devez ajouter les **habilitations. plist** dans le **champ habilitations personnalisées** dans les paramètres du projet **GraphTutorial. iOS** , **signature du package de >iOS**. Pour plus d’informations, consultez la rubrique [mise en service de l’appareil pour Xamarin. iOS](/xamarin/ios/get-started/installation/device-provisioning).
+> Étant donné que MSAL nécessite l’utilisation d’un fichier habilitations. plist, vous devez configurer Visual Studio avec votre compte de développeur Apple pour activer la mise en service. Si vous exécutez ce didacticiel dans le simulateur iPhone, vous devez ajouter les **habilitations. plist** dans le champ **habilitations personnalisées** dans les paramètres du projet **GraphTutorial. iOS** , **signature du package de >iOS**. Pour plus d’informations, consultez la rubrique [mise en service de l’appareil pour Xamarin. iOS](/xamarin/ios/get-started/installation/device-provisioning).
 
 Lorsqu’elle est utilisée dans un projet iOS Xamarin, la bibliothèque d’authentification Microsoft a quelques [exigences spécifiques à IOS](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Xamarin-iOS-specifics).
 
@@ -195,8 +200,8 @@ Tout d’abord, vous devez activer l’accès à la chaîne de trousseau. Dans l
 
 Ensuite, vous devez enregistrer l’URI de redirection MSAL par défaut en tant que type d’URL géré par votre application. Ouvrez le fichier **info. plist** et effectuez les modifications suivantes.
 
-- Dans l’onglet **application** , vérifiez que la valeur de l' **identificateur groupé** correspond à la valeur que vous avez définie pour les **groupes de trousseau** dans les habilitations **. plist**. Si ce n’est pas le cas, mettez-le à jour maintenant.
-- Sous l’onglet **avancé** , recherchez la section **types d’URL** . Ajoutez un type d’URL ici avec les valeurs suivantes:
+- Dans l’onglet **application** , vérifiez que la valeur de l' **identificateur groupé** correspond à la valeur que vous avez définie pour les **groupes de trousseau** dans les **habilitations. plist**. Si ce n’est pas le cas, mettez-le à jour maintenant.
+- Sous l’onglet **avancé** , recherchez la section **types d’URL** . Ajoutez un type d’URL ici avec les valeurs suivantes :
   - **Identificateur**: défini sur la valeur de votre **identificateur de package**
   - **Modèles d’URL**: définis `msal{YOUR-APP-ID}`sur. Par exemple, si votre ID d’application `67ad5eba-0cfc-414d-8f9f-0a6d973a907c`est, définissez-le sur `msal67ad5eba-0cfc-414d-8f9f-0a6d973a907c`.
   - **Rôle**:`Editor`
@@ -241,21 +246,56 @@ Lorsque la bibliothèque d’authentification Microsoft est utilisée dans un pr
 
 ## <a name="get-user-details"></a>Obtenir les détails de l’utilisateur
 
-À présent, `SignIn` mettez à jour la fonction dans **app.Xaml.cs** pour initialiser le `GraphServiceClient`. Ajoutez le code suivant avant la `await GetUserInfo();` ligne.
+Ajoutez une nouvelle fonction à la classe **app** pour initialiser le `GraphServiceClient`.
 
 ```cs
-// Initialize Graph client
-GraphClient = new GraphServiceClient(new DelegateAuthenticationProvider(
-    async (requestMessage) =>
+private async Task InitializeGraphClientAsync()
+{
+    var currentAccounts = await PCA.GetAccountsAsync();
+    try
     {
-        var accounts = await PCA.GetAccountsAsync();
+        if (currentAccounts.Count() > 0)
+        {
+            // Initialize Graph client
+            GraphClient = new GraphServiceClient(new DelegateAuthenticationProvider(
+                async (requestMessage) =>
+                {
+                    var result = await PCA.AcquireTokenSilent(Scopes, currentAccounts.FirstOrDefault())
+                        .ExecuteAsync();
 
-        var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
-            .ExecuteAsync();
+                    requestMessage.Headers.Authorization =
+                        new AuthenticationHeaderValue("Bearer", result.AccessToken);
+                }));
 
-        requestMessage.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", result.AccessToken);
-    }));
+            await GetUserInfo();
+
+            IsSignedIn = true;
+        }
+        else
+        {
+            IsSignedIn = false;
+        }
+    }
+    catch(Exception ex)
+    {
+        Debug.WriteLine(
+            $"Failed to initialized graph client. Accounts in the msal cache: {currentAccounts.Count()}. See exception message for details: {ex.Message}");
+    }
+}
+```
+
+À présent, `SignIn` mettez à jour la fonction dans **app.Xaml.cs** pour appeler `GetUserInfo`cette fonction au lieu de. Supprimez les éléments suivants `SignIn` de la fonction.
+
+```cs
+await GetUserInfo();
+
+IsSignedIn = true;
+```
+
+Ajoutez le code suivant à la fin de `SignIn` la fonction.
+
+```cs
+await InitializeGraphClientAsync();
 ```
 
 À présent, `GetUserInfo` mettez à jour la fonction pour obtenir les détails de l’utilisateur à partir de Microsoft Graph. Remplacez la fonction `GetUserInfo` existante par ce qui suit.

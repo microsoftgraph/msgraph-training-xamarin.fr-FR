@@ -11,7 +11,7 @@ Dans la boîte de dialogue **configurer un nouveau projet** , entrez `GraphTutor
 
 ![Boîte de dialogue Configurer un nouveau projet de Visual Studio 2019](images/configure-new-project-dialog.png)
 
-Dans la boîte de dialogue **nouvelle application** multiplateforme, sélectionnez le modèle **vierge** , puis sélectionnez les plateformes que vous souhaitez **** créer sous plateformes. Sélectionnez **OK** pour créer la solution.
+Dans la boîte de dialogue **nouvelle application** multiplateforme, sélectionnez le modèle **vierge** , puis sélectionnez les plateformes que vous souhaitez créer sous **plateformes**. Sélectionnez **OK** pour créer la solution.
 
 ![Nouvelle boîte de dialogue d’application multiplateforme Visual Studio 2019](images/new-cross-platform-app-dialog.png)
 
@@ -23,10 +23,10 @@ Avant de poursuivre, installez des packages NuGet supplémentaires que vous util
 Sélectionnez **outils > gestionnaire de package NuGet > console Gestionnaire de package**. Dans la console Gestionnaire de package, entrez les commandes suivantes.
 
 ```Powershell
-Install-Package Microsoft.Identity.Client -Version 3.0.8 -Project GraphTutorial
-Install-Package Microsoft.Identity.Client -Version 3.0.8 -Project GraphTutorial.Android
-Install-Package Microsoft.Identity.Client -Version 3.0.8 -Project GraphTutorial.iOS
-Install-Package Microsoft.Graph -Version 1.15.0 -Project GraphTutorial
+Install-Package Microsoft.Identity.Client -Version 4.7.1 -Project GraphTutorial
+Install-Package Microsoft.Identity.Client -Version 4.7.1 -Project GraphTutorial.Android
+Install-Package Microsoft.Identity.Client -Version 4.7.1 -Project GraphTutorial.iOS
+Install-Package Microsoft.Graph -Version 1.20.0 -Project GraphTutorial
 ```
 
 ## <a name="design-the-app"></a>Concevoir l’application
@@ -447,6 +447,6 @@ namespace GraphTutorial
 }
 ```
 
-Enregistrez toutes vos modifications. Cliquez avec le bouton droit sur le projet que vous souhaitez exécuter (Android, iOS ou UWP) et sélectionnez **définir comme projet de démarrage**. Appuyez sur **F5** ou sélectionnez déboguer **> démarrer** le débogage dans Visual Studio.
+Enregistrez toutes vos modifications. Cliquez avec le bouton droit sur le projet que vous souhaitez exécuter (Android, iOS ou UWP) et sélectionnez **définir comme projet de démarrage**. Appuyez sur **F5** ou sélectionnez **déboguer > démarrer le débogage** dans Visual Studio.
 
 ![Captures d’écran des versions Android, iOS et UWP de l’application](./images/welcome-page.png)

@@ -14,7 +14,7 @@ Xamarin doit également être installé dans le cadre de votre installation de V
 Si vous le souhaitez, vous pouvez également avoir accès à un Mac avec Visual Studio pour Mac installé. Si vous n’avez pas accès, vous pouvez continuer à effectuer ce didacticiel, mais ne pourrez pas terminer les sections spécifiques d’iOS.
 
 > [!NOTE]
-> Ce didacticiel a été écrit avec Visual Studio 2019 version 16.1.0 et Visual Studio pour Mac version 7.7.4. Les deux ordinateurs ont la plateforme du kit de développement logiciel (SDK) Android installée. Les étapes de ce guide peuvent fonctionner avec d’autres versions, mais cela n’a pas été testé.
+> Ce didacticiel a été écrit avec Visual Studio 2019 version 16.3.10 et Visual Studio pour Mac version 7.7.4. Les deux ordinateurs ont la plateforme du kit de développement logiciel (SDK) Android installée. Les étapes de ce guide peuvent fonctionner avec d’autres versions, mais cela n’a pas été testé.
 
 ## <a name="feedback"></a>Commentaires
 
