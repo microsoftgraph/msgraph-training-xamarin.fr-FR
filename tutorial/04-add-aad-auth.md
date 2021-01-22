@@ -4,7 +4,7 @@ Dans cet exercice, vous allez étendre l’application de l’exercice précéde
 
 1. Dans **l’Explorateur de** solutions, développez **le projet GraphTutorial** et cliquez avec le bouton droit sur **le dossier Modèles.** Sélectionnez **Ajouter > classe...**. Nommez la classe `OAuthSettings` et sélectionnez **Ajouter.**
 
-1. Ouvrez **OAuthSettings.cs** fichier et remplacez son contenu par ce qui suit.
+1. Ouvrez **le OAuthSettings.cs** fichier et remplacez son contenu par ce qui suit.
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/Models/OAuthSettings.cs.example":::
 
@@ -41,7 +41,7 @@ Dans cet exercice, vous allez étendre l’application de l’exercice précéde
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/App.xaml.cs" id="AppConstructorSnippet" highlight="5-14":::
 
-1. Mettez à jour `SignIn` la fonction pour utiliser la fonction pour obtenir un `PublicClientApplication` jeton d’accès. Ajoutez le code suivant au-dessus de `await GetUserInfo();` la ligne.
+1. Mettez à jour `SignIn` la fonction pour utiliser la fonction pour obtenir un `PublicClientApplication` jeton d’accès. Ajoutez le code suivant au-dessus de la `await GetUserInfo();` ligne.
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/App.xaml.cs" id="GetTokenSnippet":::
 
@@ -76,10 +76,10 @@ Lorsqu’elle est utilisée dans un projet Xamarin Android, la bibliothèque d�
     App.AuthUIParent = this;
     ```
 
-### <a name="update-ios-project-to-enable-sign-in"></a>Mettre à jour un projet iOS pour activer la connectez-vous
+### <a name="update-ios-project-to-enable-sign-in"></a>Mettre à jour le projet iOS pour activer la connectez-vous
 
 > [!IMPORTANT]
-> Étant donné que MSAL nécessite l’utilisation d’un fichier Entitlements.plist, vous devez configurer Visual Studio avec votre compte de développeur Apple pour activer l’approvisionnement. Si vous exécutez ce didacticiel dans le simulateur iPhone, vous devez ajouter **Entitlements.plist** dans le champ Droits personnalisés dans les **paramètres** du projet **GraphTutorial.iOS,** **Build->iOS Bundle Signing**. Pour plus d’informations, voir La mise en service des appareils [pour Xamarin.iOS.](/xamarin/ios/get-started/installation/device-provisioning)
+> Étant donné que MSAL nécessite l’utilisation d’un fichier Entitlements.plist, vous devez configurer Visual Studio avec votre compte de développeur Apple pour activer l’approvisionnement. Si vous exécutez ce didacticiel dans le simulateur iPhone, vous devez ajouter **Entitlements.plist** dans le champ Droits personnalisés dans les **paramètres** du projet **GraphTutorial.iOS,** **Build->iOS Bundle Signing**. Pour plus d’informations, [voir Device provisioning for Xamarin.iOS](/xamarin/ios/get-started/installation/device-provisioning).
 
 Lorsqu’elle est utilisée dans un projet IOS Xamarin, la bibliothèque d’authentification Microsoft a quelques exigences [spécifiques à iOS.](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Xamarin-iOS-specifics)
 
@@ -120,11 +120,11 @@ Lorsque la bibliothèque d’authentification Microsoft est utilisée dans un pr
 
 ## <a name="get-user-details"></a>Obtenir les détails de l’utilisateur
 
-1. Ajoutez une nouvelle fonction à la classe **App** pour initialiser `GraphServiceClient` le .
+1. Ajoutez une nouvelle fonction à la classe **App** pour initialiser le `GraphServiceClient` .
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/App.xaml.cs" id="InitializeGraphClientSnippet":::
 
-1. Mettez à `SignIn` jour la fonction **App.xaml.cs** pour appeler cette fonction au lieu de `GetUserInfo` . Supprimez ce qui suit de la `SignIn` fonction.
+1. Mettez à `SignIn` jour la fonction dans **App.xaml.cs** pour appeler cette fonction au lieu de `GetUserInfo` . Supprimez ce qui suit de la `SignIn` fonction.
 
     ```csharp
     await GetUserInfo();
