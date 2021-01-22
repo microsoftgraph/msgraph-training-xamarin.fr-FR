@@ -1,26 +1,26 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-Ce didacticiel vous apprend à créer une application Xamarin qui utilise l’API Microsoft Graph pour récupérer des informations de calendrier pour un utilisateur.
+Ce didacticiel vous apprend à créer une application Xamarin qui utilise l’API Microsoft Graph pour récupérer les informations de calendrier d’un utilisateur.
 
 > [!TIP]
-> Si vous préférez télécharger simplement le didacticiel terminé, vous pouvez télécharger ou cloner le [référentiel GitHub](https://github.com/microsoftgraph/msgraph-training-xamarin).
+> Si vous préférez simplement télécharger le didacticiel terminé, vous pouvez télécharger ou cloner le référentiel [GitHub.](https://github.com/microsoftgraph/msgraph-training-xamarin)
 
-## <a name="prerequisites"></a>Conditions préalables
+## <a name="prerequisites"></a>Configuration requise
 
-Avant de commencer ce didacticiel, [Visual Studio](https://visualstudio.microsoft.com/vs/) doit être installé sur un ordinateur exécutant Windows 10 avec [le mode développeur activé](https://docs.microsoft.com/windows/uwp/get-started/enable-your-device-for-development). Si vous ne disposez pas de Visual Studio, reportez-vous au lien précédent pour obtenir les options de téléchargement.
+Avant de commencer ce didacticiel, vous devez avoir installé Visual Studio sur un ordinateur exécutant Windows 10 avec [le mode développeur allumé.](https://docs.microsoft.com/windows/uwp/get-started/enable-your-device-for-development) [](https://visualstudio.microsoft.com/vs/) Si vous n’avez pas Visual Studio, consultez le lien précédent pour obtenir les options de téléchargement.
 
-Xamarin doit également être installé dans le cadre de votre installation de Visual Studio. Consultez la rubrique [installation de Xamarin](/xamarin/cross-platform/get-started/installation) pour obtenir des instructions sur l’installation et la configuration de Xamarin.
+Xamarin doit également être installé dans le cadre de votre installation Visual Studio’installation. Voir [Installation de Xamarin](/xamarin/cross-platform/get-started/installation) pour obtenir des instructions sur l’installation et la configuration de Xamarin.
 
-Si vous le souhaitez, vous pouvez également avoir accès à un Mac avec Visual Studio pour Mac installé. Si vous n’avez pas accès, vous pouvez continuer à effectuer ce didacticiel, mais ne pourrez pas terminer les sections spécifiques d’iOS.
+Si vous le souhaitez, vous devez également avoir accès à un Mac Visual Studio pour Mac est installé. Si vous n’avez pas accès, vous pouvez toujours effectuer ce didacticiel, mais vous ne pourrez pas compléter les sections spécifiques d’iOS.
 
-Vous devez également disposer d’un compte Microsoft personnel disposant d’une boîte aux lettres sur Outlook.com ou d’un compte professionnel ou scolaire Microsoft. Si vous n’avez pas de compte Microsoft, vous disposez de deux options pour obtenir un compte gratuit :
+Vous devez également avoir un compte Microsoft personnel avec une boîte aux lettres sur Outlook.com ou un compte scolaire ou scolaire Microsoft. Si vous n’avez pas de compte Microsoft, deux options s’offrent à vous pour obtenir un compte gratuit :
 
-- Vous pouvez vous [inscrire pour obtenir un nouveau compte Microsoft personnel](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=12&ct=1454618383&rver=6.4.6456.0&wp=MBI_SSL_SHARED&wreply=https://mail.live.com/default.aspx&id=64855&cbcxt=mai&bk=1454618383&uiflavor=web&uaid=b213a65b4fdc484382b6622b3ecaa547&mkt=E-US&lc=1033&lic=1).
-- Vous pouvez vous [inscrire au programme pour les développeurs office 365](https://developer.microsoft.com/office/dev-program) pour obtenir un abonnement gratuit à Office 365.
+- Vous pouvez [vous inscrire à un nouveau compte Microsoft personnel.](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=12&ct=1454618383&rver=6.4.6456.0&wp=MBI_SSL_SHARED&wreply=https://mail.live.com/default.aspx&id=64855&cbcxt=mai&bk=1454618383&uiflavor=web&uaid=b213a65b4fdc484382b6622b3ecaa547&mkt=E-US&lc=1033&lic=1)
+- Vous pouvez vous inscrire au programme pour les développeurs [Office 365](https://developer.microsoft.com/office/dev-program) pour obtenir un abonnement Office 365 gratuit.
 
 > [!NOTE]
-> Ce didacticiel a été écrit avec Visual Studio 2019 version 16.5.2 et Visual Studio pour Mac version 8.5.1. Les deux ordinateurs ont la plateforme du kit de développement logiciel (SDK) Android installée. Les étapes de ce guide peuvent fonctionner avec d’autres versions, mais cela n’a pas été testé.
+> Ce didacticiel a été Visual Studio version 2019 16.8.3 et Visual Studio pour Mac version 8.5.1. La plateforme 28 du SDK Android est installée sur les deux ordinateurs. Les étapes de ce guide peuvent fonctionner avec d’autres versions, mais elles n’ont pas été testées.
 
 ## <a name="feedback"></a>Commentaires
 
-Veuillez fournir des commentaires sur ce didacticiel dans le [référentiel GitHub](https://github.com/microsoftgraph/msgraph-training-xamarin).
+Veuillez nous faire part de vos commentaires sur ce didacticiel dans [le référentiel GitHub.](https://github.com/microsoftgraph/msgraph-training-xamarin)
