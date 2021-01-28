@@ -32,6 +32,10 @@ Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. P
     using System.ComponentModel;
     ```
 
+1. Ajoutez la fonction suivante à la classe pour obtenir le début de la semaine en cours dans le `CalendarPage` fuseau horaire de l’utilisateur.
+
+    :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/CalendarPage.xaml.cs" id="GetStartOfWeekSnippet":::
+
 1. Ajoutez la fonction suivante à la classe pour obtenir les `CalendarPage` événements de l’utilisateur et afficher la réponse JSON.
 
     ```csharp
@@ -71,7 +75,7 @@ Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. P
     Réfléchissez à ce que fait `OnAppearing` le code.
 
     - L’URL qui sera appelée est `/v1.0/me/calendarview`.
-        - Les `startDateTime` `endDateTime` paramètres et les paramètres définissent le début et la fin de l’affichage Calendrier.
+        - Les `startDateTime` `endDateTime` paramètres définissent le début et la fin de l’affichage Calendrier.
         - `Prefer: outlook.timezone`L’en-tête entraîne le retour des événements dans `start` le fuseau horaire de `end` l’utilisateur.
         - La fonction limite les champs renvoyés pour chaque événement à ceux que `Select` l’application utilisera réellement.
         - La `OrderBy` fonction trie les résultats par date et heure de début.
