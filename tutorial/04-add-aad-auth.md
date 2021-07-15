@@ -1,10 +1,10 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-Dans cet exercice, vous allez étendre l’application de l’exercice précédent pour prendre en charge l’authentification avec Azure AD. Cette étape est nécessaire pour obtenir le jeton d’accès OAuth nécessaire pour appeler Microsoft Graph. Dans cette étape, vous allez intégrer la bibliothèque d’authentification [Microsoft pour .NET (MSAL)](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet) dans l’application.
+Dans cet exercice, vous allez étendre l’application de l’exercice précédent pour prendre en charge l’authentification avec Azure AD. Cette étape est nécessaire pour obtenir le jeton d’accès OAuth nécessaire pour appeler l’Graph Microsoft. Dans cette étape, vous allez intégrer la bibliothèque d’authentification [Microsoft pour .NET (MSAL)](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet) dans l’application.
 
 1. Dans **l’Explorateur de** solutions, développez **le projet GraphTutorial** et cliquez avec le bouton droit sur **le dossier Modèles.** Sélectionnez **Ajouter > classe...**. Nommez la classe `OAuthSettings` et sélectionnez **Ajouter.**
 
-1. Ouvrez **le OAuthSettings.cs** fichier et remplacez son contenu par ce qui suit.
+1. Ouvrez **le fichier OAuthSettings.cs** et remplacez son contenu par ce qui suit.
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/Models/OAuthSettings.cs.example":::
 
@@ -15,7 +15,7 @@ Dans cet exercice, vous allez étendre l’application de l’exercice précéde
 
 ## <a name="implement-sign-in"></a>Implémentation de la connexion
 
-1. Ouvrez **le App.xaml.cs** dans le projet **GraphTutorial** et ajoutez les `using` instructions suivantes en haut du fichier.
+1. Ouvrez **le fichier App.xaml.cs** dans le projet **GraphTutorial** et ajoutez les instructions suivantes en haut `using` du fichier.
 
     ```csharp
     using GraphTutorial.Models;
@@ -51,11 +51,11 @@ Dans cet exercice, vous allez étendre l’application de l’exercice précéde
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/App.xaml.cs" id="RemoveAccountSnippet":::
 
-### <a name="update-android-project-to-enable-sign-in"></a>Mettre à jour le projet Android pour activer la connectez-vous
+### <a name="update-android-project-to-enable-sign-in"></a>Mettre à jour le projet Android pour activer la sign-in
 
-Lorsqu’elle est utilisée dans un projet Xamarin Android, la bibliothèque d’authentification Microsoft présente quelques exigences [spécifiques à Android.](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Xamarin-Android-specifics)
+Lorsqu’elle est utilisée dans un projet Xamarin Android, la bibliothèque d’authentification Microsoft présente quelques exigences [spécifiques à Android.](/azure/active-directory/develop/msal-net-xamarin-android-considerations)
 
-1. Dans **le projet GraphTutorial.Android,** développez le dossier **Propriétés,** puis **ouvrezAndroidManifest.xml**. Si vous utilisez Visual Studio pour Mac, cliquez surAndroidManifest.xmlpuis choisissez **Ouvrir** **avec,** puis **Éditeur de code source.** Remplacez tout le contenu par ce qui suit.
+1. Dans **le projet GraphTutorial.Android,** développez le dossier **Propriétés,** puis **ouvrezAndroidManifest.xml**. Si vous utilisez Visual Studio pour Mac, cliquez surAndroidManifest.xml **puis** choisissez **Ouvrir** avec, puis Éditeur de **code source.** Remplacez tout le contenu par ce qui suit.
 
     :::code language="xml" source="../demo/GraphTutorial/GraphTutorial.Android/Properties/AndroidManifest.xml":::
 
@@ -76,12 +76,12 @@ Lorsqu’elle est utilisée dans un projet Xamarin Android, la bibliothèque d�
     App.AuthUIParent = this;
     ```
 
-### <a name="update-ios-project-to-enable-sign-in"></a>Mettre à jour le projet iOS pour activer la connectez-vous
+### <a name="update-ios-project-to-enable-sign-in"></a>Mettre à jour un projet iOS pour activer la connectez-vous
 
 > [!IMPORTANT]
-> Étant donné que MSAL nécessite l’utilisation d’un fichier Entitlements.plist, vous devez configurer Visual Studio avec votre compte de développeur Apple pour activer l’approvisionnement. Si vous exécutez ce didacticiel dans le simulateur iPhone, vous devez ajouter **Entitlements.plist** dans le champ Droits personnalisés dans les **paramètres** du projet **GraphTutorial.iOS,** **Build->iOS Bundle Signing**. Pour plus d’informations, [voir Device provisioning for Xamarin.iOS](/xamarin/ios/get-started/installation/device-provisioning).
+> Étant donné que MSAL nécessite l’utilisation d’un fichier Entitlements.plist, vous devez configurer Visual Studio avec votre compte de développeur Apple pour activer l’approvisionnement. Si vous exécutez ce didacticiel dans le simulateur iPhone, vous devez ajouter **Entitlements.plist** dans le champ Droits personnalisés dans les **paramètres** du projet **GraphTutorial.iOS,** **Build->iOS Bundle Signing**. Pour plus d’informations, voir La mise en service des appareils [pour Xamarin.iOS.](/xamarin/ios/get-started/installation/device-provisioning)
 
-Lorsqu’elle est utilisée dans un projet IOS Xamarin, la bibliothèque d’authentification Microsoft a quelques exigences [spécifiques à iOS.](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Xamarin-iOS-specifics)
+Lorsqu’elle est utilisée dans un projet IOS Xamarin, la bibliothèque d’authentification Microsoft a quelques exigences [spécifiques à iOS.](/azure/active-directory/develop/msal-net-xamarin-ios-considerations)
 
 1. Dans l’Explorateur de solutions, développez **le projet GraphTutorial.iOS,** puis ouvrez le fichier **Entitlements.plist.**
 
@@ -91,7 +91,7 @@ Lorsqu’elle est utilisée dans un projet IOS Xamarin, la bibliothèque d’aut
 
     ![Capture d’écran de la configuration des droits duchain](./images/enable-keychain-access.png)
 
-1. Mettez à jour le code dans **le projet GraphTutorial.iOS** pour gérer la redirection pendant l’authentification. Ouvrez **AppDelegate.cs** fichier et ajoutez l’instruction `using` suivante en haut du fichier.
+1. Mettez à jour le code dans **le projet GraphTutorial.iOS** pour gérer la redirection pendant l’authentification. Ouvrez **le fichier AppDelegate.cs** et ajoutez l’instruction `using` suivante en haut du fichier.
 
     ```csharp
     using Microsoft.Identity.Client;
@@ -120,7 +120,7 @@ Lorsque la bibliothèque d’authentification Microsoft est utilisée dans un pr
 
 ## <a name="get-user-details"></a>Obtenir les détails de l’utilisateur
 
-1. Ajoutez une nouvelle fonction à la classe **App** pour initialiser le `GraphServiceClient` .
+1. Ajoutez une nouvelle fonction à la classe **App** pour initialiser `GraphServiceClient` le .
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/App.xaml.cs" id="InitializeGraphClientSnippet":::
 
@@ -138,7 +138,7 @@ Lorsque la bibliothèque d’authentification Microsoft est utilisée dans un pr
     await InitializeGraphClientAsync();
     ```
 
-1. Mettez à `GetUserInfo` jour la fonction pour obtenir les détails de l’utilisateur à partir de Microsoft Graph. Remplacez la fonction `GetUserInfo` existante par ce qui suit.
+1. Mettez à `GetUserInfo` jour la fonction pour obtenir les détails de l’utilisateur auprès de Microsoft Graph. Remplacez la fonction `GetUserInfo` existante par ce qui suit.
 
     :::code language="csharp" source="../demo/GraphTutorial/GraphTutorial/App.xaml.cs" id="GetUserInfoSnippet":::
 

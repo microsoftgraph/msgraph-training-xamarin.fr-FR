@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. Pour cette application, vous allez utiliser la bibliothèque [cliente Microsoft Graph pour .NET](https://github.com/microsoftgraph/msgraph-sdk-dotnet) pour effectuer des appels à Microsoft Graph.
+Dans cet exercice, vous allez incorporer l’Graph Microsoft dans l’application. Pour cette application, vous allez utiliser la bibliothèque cliente Microsoft Graph pour [.NET](https://github.com/microsoftgraph/msgraph-sdk-dotnet) pour effectuer des appels à Microsoft Graph.
 
 ## <a name="get-calendar-events-from-outlook"></a>Récupérer les événements de calendrier à partir d’Outlook
 
@@ -27,7 +27,7 @@ Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. P
 
     ```csharp
     using Microsoft.Graph;
-    using Newtonsoft.Json;
+
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     ```
@@ -53,9 +53,13 @@ Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. P
             new QueryOption("endDateTime", endOfWeek.ToString("o"))
         };
 
+        var timeZoneString =
+            Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.UWP ?
+                App.UserTimeZone.StandardName : App.UserTimeZone.DisplayName;
+
         // Get the events
         var events = await App.GraphClient.Me.CalendarView.Request(queryOptions)
-            .Header("Prefer", $"outlook.timezone=\"{App.UserTimeZone.DisplayName}\"")
+            .Header("Prefer", $"outlook.timezone=\"{timeZoneString}\"")
             .Select(e => new
             {
                 e.Subject,
@@ -68,7 +72,7 @@ Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. P
             .GetAsync();
 
         // Temporary
-        JSONResponse.Text = JsonConvert.SerializeObject(events.CurrentPage, Formatting.Indented);
+        JSONResponse.Text = App.GraphClient.HttpProvider.Serializer.SerializeObject(events.CurrentPage);
     }
     ```
 
@@ -87,9 +91,9 @@ Dans cet exercice, vous allez incorporer Microsoft Graph dans l’application. P
 
 Vous pouvez désormais remplacer le vidage JSON par un autre qui permet d’afficher les résultats de manière conviviale.
 
-Commencez par créer un [convertisseur](/xamarin/xamarin-forms/xaml/xaml-basics/data-binding-basics#binding-value-converters) de valeur de liaison pour convertir les valeurs [dateTimeTimeZone](/graph/api/resources/datetimetimezone?view=graph-rest-1.0) renvoyées par Microsoft Graph dans les formats de date et d’heure que l’utilisateur attend.
+Commencez par créer un [convertisseur](/xamarin/xamarin-forms/xaml/xaml-basics/data-binding-basics#binding-value-converters) de valeur de liaison pour convertir les valeurs [dateTimeTimeZone](/graph/api/resources/datetimetimezone?view=graph-rest-1.0) renvoyées par Microsoft Graph aux formats de date et d’heure que l’utilisateur attend.
 
-1. Cliquez avec le bouton droit sur le dossier **Modèles** dans le projet **GraphTutorial** et sélectionnez **Ajouter,** puis **Classe...**. Nommez la classe `GraphDateTimeTimeZoneConverter` et sélectionnez **Ajouter.**
+1. Cliquez avec le bouton droit sur le dossier **Modèles** dans le projet **GraphTutorial** et **sélectionnez Ajouter,** puis **Classe...**. Nommez la classe `GraphDateTimeTimeZoneConverter` et sélectionnez **Ajouter.**
 
 1. Remplacez tout le contenu du fichier par ce qui suit.
 
@@ -97,7 +101,7 @@ Commencez par créer un [convertisseur](/xamarin/xamarin-forms/xaml/xaml-basics/
 
 1. Remplacez tout le contenu **de CalendarPage.xaml** par ce qui suit.
 
-    :::code language="xaml" source="../demo/GraphTutorial/GraphTutorial/CalendarPage.xaml" id="CalendarPageXamlSnippet":::
+    :::code language="xaml" source="../demo/GraphTutorial/GraphTutorial/CalendarPage.xaml":::
 
     Cela remplace le `Editor` par `ListView` un . `DataTemplate`L’élément utilisé pour restituer chaque élément utilise pour convertir les propriétés et `GraphDateTimeTimeZoneConverter` les `Start` `End` propriétés de l’événement en chaîne.
 
@@ -115,6 +119,6 @@ Commencez par créer un [convertisseur](/xamarin/xamarin-forms/xaml/xaml-basics/
     CalendarList.ItemsSource = events.CurrentPage.ToList();
     ```
 
-1. Exécutez l’application, connectez-vous et cliquez sur **l’élément de** navigation Calendrier. Vous devez voir la liste des événements avec les valeurs **Début** **et** Fin formatées.
+1. Exécutez l’application, connectez-vous et cliquez sur **l’élément de** navigation Calendrier. Vous devez voir la liste des événements avec les valeurs **début** et **fin** formatées.
 
     ![Capture d’écran du tableau des événements](./images/calendar-page.png)
